@@ -3,8 +3,6 @@ GRID_REGEX = r"^[0-9]+\s[0-9]+$"
 INPUT_REGEX = r"^\([0-9]+,\s[0-9]+,\s[NESW]+\)\s+[LFR]+$"
 ROBOTS_TO_RUN = 2
 
-is_lost = False
-outputs = []
 def move(x, y, direction, grid_x, grid_y):
     if direction == "N":
         if y == grid_y:
@@ -49,24 +47,29 @@ def get_robot_config():
         else:
             print("Invalid input. Please enter a string in the following format: (n, n, D) C where n is a number, D is one of N E S W, C is one of L F R, repeated as many times as desired: ")
 
-grid_x, grid_y = get_grid_size()
+def main():
+    outputs = []
+    grid_x, grid_y = get_grid_size()
 
-for i in range(ROBOTS_TO_RUN):
-    posX, posY, commands, directions = get_robot_config();
-    for command in commands:
-        if command == "F":
-            posX, posY, is_lost = move(posX, posY, directions[0], grid_x, grid_y)
-            if is_lost:
-                break
-        elif command == "R":
-            directions = directions[1:] + directions[:1]
-        elif command == "L":
-            directions = directions[-1:] + directions[:-1]
-			
-    output = f"({posX}, {posY}, {directions[0]})"
-    if is_lost:
-        output += " LOST"
-    outputs.append(output)
+    for i in range(ROBOTS_TO_RUN):
+        posX, posY, commands, directions = get_robot_config()
+        for command in commands:
+            if command == "F":
+                posX, posY, is_lost = move(posX, posY, directions[0], grid_x, grid_y)
+                if is_lost:
+                    break
+            elif command == "R":
+                directions = directions[1:] + directions[:1]
+            elif command == "L":
+                directions = directions[-1:] + directions[:-1]
+                
+        output = f"({posX}, {posY}, {directions[0]})"
+        if is_lost:
+            output += " LOST"
+        outputs.append(output)
 
-for output in outputs:
-    print(output)
+    for output in outputs:
+        print(output)
+    
+if __name__ == "__main__":
+    main()
