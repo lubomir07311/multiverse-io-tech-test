@@ -2,28 +2,22 @@ import re
 GRID_REGEX = r"^[0-9]+\s[0-9]+$"
 INPUT_REGEX = r"^\([0-9]+,\s[0-9]+,\s[NESW]+\)\s+[LFR]+$"
 ROBOTS_TO_RUN = 2
+MOVES = {
+    "N": (0, 1),
+    "E": (1, 0),
+    "S": (0, -1),
+    "W": (-1, 0)
+}
+
 
 def move(x, y, direction, grid_x, grid_y):
-    if direction == "N":
-        if y == grid_y:
-            return x, y, True
-            
-        return x, y+1, False 
-    elif direction == "E":
-        if x == grid_x:
-            return x, y, True
+    move_x, move_y = MOVES[direction]
+    x += move_x
+    y += move_y
+    if x < 0 or x > grid_x or y < 0 or y > grid_y:
+        return x - move_x, y - move_y, True
+    return x, y, False
 
-        return x+1, y, False 
-    elif direction == "S":
-        if y == 0:
-            return x, y, True
-            
-        return x, y-1, False 
-    elif direction == "W":
-        if x == 0:
-            return x, y, True
-
-        return x-1, y, False 
     
 def get_grid_size():
     while True:
