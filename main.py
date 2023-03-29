@@ -1,13 +1,9 @@
 import re
+
 GRID_REGEX = r"^[0-9]+\s[0-9]+$"
 INPUT_REGEX = r"^\([0-9]+,\s[0-9]+,\s[NESW]+\)\s+[LFR]+$"
 ROBOTS_TO_RUN = 2
-MOVES = {
-    "N": (0, 1),
-    "E": (1, 0),
-    "S": (0, -1),
-    "W": (-1, 0)
-}
+MOVES = {"N": (0, 1), "E": (1, 0), "S": (0, -1), "W": (-1, 0)}
 
 
 def move(x, y, direction, grid_x, grid_y):
@@ -18,7 +14,7 @@ def move(x, y, direction, grid_x, grid_y):
         return x - move_x, y - move_y, True
     return x, y, False
 
-    
+
 def get_grid_size():
     while True:
         user_input = input("Enter grid size: ")
@@ -26,20 +22,33 @@ def get_grid_size():
             grid_x, grid_y = map(int, user_input.split())
             return grid_x, grid_y
         else:
-            print("Invalid input. Please enter a grid size 'x y' where x and y are integers: ")
-            
+            print(
+                "Invalid input. Please enter a grid size 'x y' where x and y are integers: "
+            )
+
+
 def get_robot_config():
     while True:
         user_input = input("Enter position, orientation and commands: ")
         if re.match(INPUT_REGEX, user_input):
-            input_list = user_input.replace('(','').replace(')','').replace(',','').split();
-            posX, posY, direction, commands = int(input_list[0]), int(input_list[1]), input_list[2], input_list[3]
-            directions = ['N', 'E', 'S' , 'W']
+            input_list = (
+                user_input.replace("(", "").replace(")", "").replace(",", "").split()
+            )
+            posX, posY, direction, commands = (
+                int(input_list[0]),
+                int(input_list[1]),
+                input_list[2],
+                input_list[3],
+            )
+            directions = ["N", "E", "S", "W"]
             while directions[0] != direction:
                 directions = directions[1:] + directions[:1]
             return posX, posY, commands, directions
         else:
-            print("Invalid input. Please enter a string in the following format: (n, n, D) C where n is a number, D is one of N E S W, C is one of L F R, repeated as many times as desired: ")
+            print(
+                "Invalid input. Please enter a string in the following format: (n, n, D) C where n is a number, D is one of N E S W, C is one of L F R, repeated as many times as desired: "
+            )
+
 
 def main():
     outputs = []
@@ -56,7 +65,7 @@ def main():
                 directions = directions[1:] + directions[:1]
             elif command == "L":
                 directions = directions[-1:] + directions[:-1]
-                
+
         output = f"({posX}, {posY}, {directions[0]})"
         if is_lost:
             output += " LOST"
@@ -64,6 +73,7 @@ def main():
 
     for output in outputs:
         print(output)
-    
+
+
 if __name__ == "__main__":
     main()
