@@ -7,13 +7,13 @@ def data_provider():
 		# x, y, direction, gridX, gridY, expected_x, expected_y, is_lost
 		[2, 3, "N", 4, 8, 2, 4, False], # successful move North
 		[2, 3, "E", 4, 8, 3, 3, False], # successful move East
-		[2, 3, "S", 4, 8, 2, 2, False], # successful move East
-		[2, 3, "W", 4, 8, 1, 3, False], # successful move East
+		[2, 3, "S", 4, 8, 2, 2, False], # successful move South
+		[2, 3, "W", 4, 8, 1, 3, False], # successful move West
 		[0, 0, "N", 0, 0, 0, 0, True],	# falling off a 0, 0 grid
 		[4, 4, "N", 4, 4, 4, 4, True],	# falling off the northern edge
 		[4, 4, "E", 4, 4, 4, 4, True],	# falling off the eastern edge
-		[4, 0, "S", 4, 4, 4, 0, True],	# falling off the western edge
-		[0, 4, "W", 4, 4, 0, 4, True],	# falling off the southern edge
+		[4, 0, "S", 4, 4, 4, 0, True],	# falling off the southern edge
+		[0, 4, "W", 4, 4, 0, 4, True],	# falling off the western edge
 	]
     for row in data:
         yield row
